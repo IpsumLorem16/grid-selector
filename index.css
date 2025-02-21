@@ -1,0 +1,118 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Open sans', sans-serif;
+}
+
+.btn {
+    padding:5px;
+    border-radius: 6px;
+    outline: none; 
+    border: none;
+    color: white;
+    cursor: pointer;
+    background: #938080d1;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn:active {
+    opacity: 1;
+    filter: brightness(0.7);
+}
+
+.btn--red {
+    background:#d13636d1;   
+}
+
+/* grid background */
+/* For showing user-selectable boxes  */
+.grid-background {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 1px;   
+    background:steelblue;
+}
+
+.grid-background__box {
+    background: DarkSlateGray;
+    color: steelblue;
+    padding: 5px;
+    font-size:21px;
+    user-select: none;
+}
+
+.grid-background__box:hover {
+    opacity:0.8;
+}
+.grid-background__box:active {
+    opacity: 1;
+    background: rgb(34, 58, 58);
+}
+
+/* grid overlay */
+/* For displaying selected areas */
+.overlay {
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    display: grid;
+    position:absolute;
+    top:0;
+    left:0;
+    height:100vh;
+    width:100%;
+    pointer-events: none;
+}
+
+.overlay__box {
+    background: #00000033;
+    pointer-events: all;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border:#44fff5 1px dashed;
+}
+
+.overlay__deleteBtn {
+    margin-right: 5px;
+}
+
+/* overlay highlight */
+.overlay__highlight {
+    background: #93ffcd26;
+    pointer-events: all;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    pointer-events: none;
+    
+}
+
+/* ↓↓↓ coordinates display (for development only) ↓↓↓ */
+.coordirnates-display {
+    display: none;
+}
+
+body.dev .coordirnates-display {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 3px;
+    font-size: 12px;
+    pointer-events: none;
+    background: #000000b3;
+    color: white;
+}
+/* ↑↑↑ coordinates display (for development only) ↑↑↑ */
