@@ -21,13 +21,13 @@ const gridBackgroundEl = document.querySelector('.grid-background');
  * Note: the end-points will be '1' more than the display numbers on the grid, this is NOT a bug. Enable actual grid numbers in devtools > layout > grid overlay.
  * (Reminder: columns = ↓, rows = →)
  * 
- * @param {array} col - contains 2 numbers, [start point, end point].
+ * @param {array} columns - contains 2 numbers, [start point, end point].
  * @param {array} row - contains 2 numbers, [start point, end point].
  * @param {string} name - area name given by user.
  */
 const addOverlayBox = (columns, rows, name) => {
-    const [columnStart, columnEnd] = columns;
-    const [rowStart, rowEnd] = rows;
+    let [columnStart, columnEnd] = columns;
+    let [rowStart, rowEnd] = rows;
     const gridOverlayEl = document.getElementById('gridOverlay'); //Element Where Overlay box is inserted.
     const boxEl = document.createElement('div'); // main componenet
     const deleteBtnEl = document.createElement('button'); // delete button
@@ -39,10 +39,18 @@ const addOverlayBox = (columns, rows, name) => {
     deleteBtnEl.className = 'overlay__deleteBtn btn btn--red';
     deleteBtnEl.addEventListener('click', handleDeleteBoxClick);
     
+    //validate co-ordinates, (user may select start and end square from any direction)
+    if (columnStart > columnEnd) {
+        columnStart = columns[1]; columnEnd = columns[0]; //Switch start and end values
+    }; 
+    if (rowStart > rowEnd) {
+        rowStart = rows[1]; rowEnd = rows[0]; //Switch start and end values
+    }; 
+
 
     //set grid position of main component
-    boxEl.style.gridColumn = `${columnStart} / ${columnEnd}`;
-    boxEl.style.gridRow = `${rowStart} / ${rowEnd}`;
+    boxEl.style.gridColumn = `${columnStart} / ${columnEnd+1}`;
+    boxEl.style.gridRow = `${rowStart} / ${rowEnd+1}`;
 
     //stick it all together
     boxEl.append(deleteBtnEl, nameEl);
@@ -113,7 +121,7 @@ const selectArea = (e) => {
         text_TEST = `Column: ${column}(↓), Row: ${row}(→)`; // for testing
         console.log(text_TEST); // for testing
         
-        highlightBox([column, (column + 1)], [row, (row + 1)]);//highlight first selected square
+        highlightBox([column, (column)], [row, (row)]);//highlight first selected square
 
         //get second co-ordinate
         gridBackgroundEl.addEventListener('click', e => {
@@ -122,7 +130,7 @@ const selectArea = (e) => {
                 deleteHighlightBox()
                 column = Number(e.target.dataset.column);
                 row = Number(e.target.dataset.row);
-                secondCoords = [(column +1), (row +1)];
+                secondCoords = [column,row];
                 text_TEST = `Column: ${column}(↓), Row: ${row}(→)`; // for testing
                 console.log(text_TEST); // for testing
                 addOverlayBox(([firstCoords[0], secondCoords[0]]), ([firstCoords[1], secondCoords[1]]), 'SELECTED')
@@ -163,8 +171,8 @@ function highlightBox(columns, rows) {
     highlightEl.className = 'overlay__highlight';
 
     //set grid position of main component
-    highlightEl.style.gridColumn = `${columnStart} / ${columnEnd}`;
-    highlightEl.style.gridRow = `${rowStart} / ${rowEnd}`;
+    highlightEl.style.gridColumn = `${columnStart} / ${columnEnd+1}`;
+    highlightEl.style.gridRow = `${rowStart} / ${rowEnd+1}`;
 
     //stick it all together
     gridOverlayEl.append(highlightEl);
