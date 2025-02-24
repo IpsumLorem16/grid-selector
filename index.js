@@ -67,28 +67,6 @@ function handleDeleteBoxClick(event) {
     } 
 }
 
-
-// let isSelecting = false;
-// let firstCoord;
-// let SecondCoord;
-
-// gridBackgroundEl.addEventListener('click', (e) => {
-//     if (e.target.hasAttribute('data-row') && e.target.hasAttribute('data-column')) {
-//         let row = e.target.dataset.row;
-//         let column = e.target.dataset.column;
-//         let text = `Column: ${column}, Row: ${row}`;
-        
-//         !isSelecting ? 
-//             (firstCoord = [row, column], console.log(`1: ${text}`)) :
-//             (SecondCoord = [row, column], console.log(`2: ${text}`));
-
-//         isSelecting = !isSelecting; //is user slecting new area
-
-
-//         // console.log(text);
-//     }
-// })
-
 // Check if clicked area is a valid 'grid box element'
 const isGridBox = element => {
 
@@ -106,43 +84,30 @@ const selectArea = (e) => {
     let secondCoords;
     const reset = () => { 
         gridBackgroundEl.addEventListener('click', selectArea, { once: true }); //re-adds a single-fire event listener, that calls this function.
-        console.log('selectArea() reset') // for testing
     } 
-    let text_TEST; // for testing
-    
-    console.log('clickStart');  // for testing
 
     if (isGridBox(e.target)) {
         //get first co-ordinate
         column = Number(e.target.dataset.column);
         row = Number(e.target.dataset.row);
-        firstCoords = [column, row];
-        
-        text_TEST = `Column: ${column}(↓), Row: ${row}(→)`; // for testing
-        console.log(text_TEST); // for testing
+        firstCoords = [column, row];      
         
         highlightBox([column, (column)], [row, (row)]);//highlight first selected square
 
         //get second co-ordinate
         gridBackgroundEl.addEventListener('click', e => {
-            console.log('clickSecond');
             if (isGridBox(e.target)) {
                 deleteHighlightBox()
                 column = Number(e.target.dataset.column);
                 row = Number(e.target.dataset.row);
                 secondCoords = [column,row];
-                text_TEST = `Column: ${column}(↓), Row: ${row}(→)`; // for testing
-                console.log(text_TEST); // for testing
                 addOverlayBox(([firstCoords[0], secondCoords[0]]), ([firstCoords[1], secondCoords[1]]), 'SELECTED')
                 reset();
-
             } else {
                 reset();
             }
+        }, { once: true });
 
-        }, { once: true })
-
-        
     } else {
         reset();
     }
@@ -185,29 +150,3 @@ function deleteHighlightBox() {
 }
 
 gridBackgroundEl.addEventListener('click', selectArea, {once:true})
-
-
-/* For Development only */
-
-// Display coordinates
-const coordsDisplayEl = document.getElementById('coords-box');
-
-gridBackgroundEl.addEventListener('mouseover', (e) => {
-    let row;
-    let column; 
-    let text;
-
-    if (e.target.hasAttribute('data-row') && e.target.hasAttribute('data-column')) {
-        row = e.target.dataset.row;
-        column = e.target.dataset.column;
-
-        text = `Column: ${column}(↓), Row: ${row}(→)`;
-
-        // console.log(text);
-        coordsDisplayEl.innerText = text;
-    }
-})
-
-// //Show a selected area box
-// addOverlayBox([1, 5], [1, 6], 'AREA 1');
-// addOverlayBox([6, 7], [3, 4], 'AREA 2');

@@ -43,10 +43,13 @@
     background: DarkSlateGray;
     color: steelblue;
     padding: 5px;
-    font-size:21px;
+    font-size:16px;
     user-select: none;
+    overflow:hidden;
 }
-
+.alt-color .grid-background__box {
+    color: #a3b446;
+}
 .grid-background__box:hover {
     opacity:0.8;
 }
@@ -79,11 +82,19 @@
     justify-content: center;
     color: white;
     border:#44fff5 1px dashed;
+    flex-wrap:wrap;
+    align-content:center;
+    gap:5px;
+    overflow:hidden;
 }
 
-.overlay__deleteBtn {
-    margin-right: 5px;
+.alt-color .overlay__box {
+    background: #fdce2966;
 }
+
+/* .overlay__deleteBtn {
+     margin-right: 5px; 
+} */
 
 /* overlay highlight */
 .overlay__highlight {
@@ -98,21 +109,3 @@
     pointer-events: none;
     
 }
-
-/* ↓↓↓ coordinates display (for development only) ↓↓↓ */
-.coordirnates-display {
-    display: none;
-}
-
-body.dev .coordirnates-display {
-    display: inline-block;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 3px;
-    font-size: 12px;
-    pointer-events: none;
-    background: #000000b3;
-    color: white;
-}
-/* ↑↑↑ coordinates display (for development only) ↑↑↑ */
