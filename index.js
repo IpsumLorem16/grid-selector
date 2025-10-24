@@ -13,8 +13,53 @@ if (env.dev === true) {
 /* end of Enviroment variables */
 
 const gridBackgroundEl = document.querySelector('.grid-background');
+const gridOverlayEl = document.getElementById('gridOverlay'); //Element Where Overlay box is inserted.
+
+// init
+
+generateNewGrid(10, 10);
 
 /* Functions */ 
+
+/**
+ * Generate and add grid to page, (must be called on initial page load)
+ * 
+ * @param {number} columns - single integer, number of columns ↓
+ * @param {number} row - single integer, number of rows →
+ */
+function generateNewGrid(rows=10, cols=10) {
+    const fragmentEl = new DocumentFragment();
+
+    //loop through rows 
+    for (let row = 1; row <= rows; row++) {
+        //loop through cols
+        for (let col = 1; col <= cols; col++) {
+            //create grid element, and set attributes
+            const gridEl = document.createElement('div');
+            gridEl.setAttribute('data-row', row);
+            gridEl.setAttribute('data-column', col);
+            gridEl.className = "grid-background__box";
+            //Add numbers along 1st row and 1st column
+            if (row === 1) {
+                gridEl.innerText = col.toString();
+            } else if (col === 1) {
+                gridEl.innerText = row.toString();
+            }
+            fragmentEl.appendChild(gridEl);
+        }
+    }
+    // clear out old grid
+    gridBackgroundEl.innerHTML = ''; 
+    deleteAllOverlayBoxes();
+    // Update grid size in CSS, for the background
+    gridBackgroundEl.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    gridBackgroundEl.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+    // Update grid size in CSS, for the overlay
+    gridOverlayEl.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    gridOverlayEl.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+    
+    gridBackgroundEl.appendChild(fragmentEl);
+}
 
 /**
  * Add a box overlay to highlight the selected area.
@@ -28,7 +73,6 @@ const gridBackgroundEl = document.querySelector('.grid-background');
 const addOverlayBox = (columns, rows, name) => {
     let [columnStart, columnEnd] = columns;
     let [rowStart, rowEnd] = rows;
-    const gridOverlayEl = document.getElementById('gridOverlay'); //Element Where Overlay box is inserted.
     const boxEl = document.createElement('div'); // main componenet
     const deleteBtnEl = document.createElement('button'); // delete button
     const nameEl = document.createElement('p'); // display area name
@@ -56,7 +100,6 @@ const addOverlayBox = (columns, rows, name) => {
     boxEl.append(deleteBtnEl, nameEl);
     gridOverlayEl.append(boxEl);
     
-
 }
 
 //Delete overlay Box
@@ -65,6 +108,12 @@ function handleDeleteBoxClick(event) {
     if (overlayBoxEl?.className === 'overlay__box') {
         overlayBoxEl.remove();
     } 
+}
+
+// find and delete all overlay boxes
+function deleteAllOverlayBoxes() {
+    const overlayBoxEls = document.querySelectorAll('.overlay__box');
+    overlayBoxEls.forEach(box => box.remove());
 }
 
 // Check if clicked area is a valid 'grid box element'
