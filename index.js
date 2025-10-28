@@ -11,13 +11,12 @@ if (env.dev === true) {
 }
 
 /* end of Enviroment variables */
-
 const gridBackgroundEl = document.querySelector('.grid-background');
 const gridOverlayEl = document.getElementById('gridOverlay'); //Element Where Overlay box is inserted.
 
 // init
 
-generateNewGrid(10, 10);
+generateNewGrid(10, 10, userTriggered=false);
 
 /* Functions */ 
 
@@ -27,13 +26,15 @@ generateNewGrid(10, 10);
  * @param {number} columns - single integer, number of columns ↓
  * @param {number} row - single integer, number of rows →
  */
-function generateNewGrid(rows=10, cols=10) {
+function generateNewGrid(cols=10, rows=10, userTriggered=false) {
+    gridBackgroundEl.parentNode.style.background = (userTriggered) ? '#2f4f4f':'white';
     const fragmentEl = new DocumentFragment();
 
     //loop through rows 
     for (let row = 1; row <= rows; row++) {
         //loop through cols
         for (let col = 1; col <= cols; col++) {
+            const delay = col + row;
             //create grid element, and set attributes
             const gridEl = document.createElement('div');
             gridEl.setAttribute('data-row', row);
@@ -45,6 +46,7 @@ function generateNewGrid(rows=10, cols=10) {
             } else if (col === 1) {
                 gridEl.innerText = row.toString();
             }
+            gridEl.style.animationDelay = `${delay * 0.01}s`;
             fragmentEl.appendChild(gridEl);
         }
     }
@@ -199,3 +201,42 @@ function deleteHighlightBox() {
 }
 
 gridBackgroundEl.addEventListener('click', selectArea, {once:true})
+
+/* Side control panel */
+
+GridControls = {
+    elements: {
+        panel: document.getElementById('sidePanel'),
+        toggleButton: document.getElementById('togglePanel'),
+        toggleButtonText: document.querySelector('.toggle-panel .sr-only'),
+        columnsInput: document.getElementById('columnsInput'),
+        rowsInput: document.getElementById('rowsInput'),
+    },
+    togglePanel() {
+        const panel = this.elements.panel;
+        const toggleButton = this.elements.toggleButton;
+        const expanded = toggleButton.getAttribute('aria-expanded') === 'true';
+
+        
+        toggleButton.setAttribute('aria-expanded', !expanded);
+        panel.setAttribute('data-expanded', !expanded);
+
+        this.elements.toggleButtonText.innerText = (!expanded) ?  'Hide Panel' : 'Show Panel';
+
+    },
+    handleGridInput() {
+        const cols = this.elements.columnsInput.value;
+        const rows = this.elements.rowsInput.value;
+
+        generateNewGrid(cols, rows, true);
+
+    },
+    init() {
+        this.elements.toggleButton.addEventListener('click', ()=>this.togglePanel());
+        this.elements.columnsInput.addEventListener('change', ()=>this.handleGridInput());
+        this.elements.rowsInput.addEventListener('change', ()=>this.handleGridInput());
+    },
+
+}
+
+GridControls.init();
