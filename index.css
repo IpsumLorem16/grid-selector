@@ -132,11 +132,11 @@ body {
     flex-shrink:0;
     width:400px;
     padding: 10px;
-    color: #c0ffed;
-    background: #201b1b;
+    color: #a6a6a6;
+    background: #222;
 }
 .side-panel[data-expanded="false"] {
-    width: 35px;
+    width: 50px;
 }
 
 .side-panel .header {
@@ -149,14 +149,60 @@ body {
     display:none;
 }
 
+/* Side panel: Toggle open button */
 .side-panel button.toggle-panel {
     position: absolute;
     display: inline-block;
-    width: 25px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    border:none;
+    background-color: #212121;
+    color: #a6a6a6;
+}
+
+
+.side-panel button.toggle-panel:hover {
+    background-color: #2e2e2e;
+    color:#3ac1c8;
+}
+.side-panel button.toggle-panel:active {
+    opacity:0.8;
+}
+
+.side-panel button.toggle-panel__blue {
+    background-color: #008cdf24;
+    color: #058cce;
+    outline: 1px solid #009fff52;
+}
+
+.side-panel button.toggle-panel__blue:hover {
+    background-color: #05a1fd2b;
+    color: #0697dd;
+}
+
+
+
+.side-panel button.toggle-panel .icon svg {
+    width:20px;
+    pointer-events: none;
+}
+
+.side-panel button.toggle-panel .icon {
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .side-panel button.toggle-panel[aria-expanded="true"] .icon-open {
     display: none;
+}
+
+.side-panel button.toggle-panel .icon-open svg {
+    margin-right:3px;
 }
 
 .side-panel button.toggle-panel[aria-expanded="false"] .icon-close {
@@ -164,11 +210,12 @@ body {
 }
 
 .side-panel .header h1 {
-    font-size:24px;
+    font-size:20px;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight:normal;
-    margin-left:32px;
-    font-variant: small-caps;
+    margin-left:42px;
+    margin-top:5px;
+    color:#e0e0e0;
 }
 
 /* helper classes */
