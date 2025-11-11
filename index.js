@@ -219,6 +219,7 @@ GridControls = {
 
         
         toggleButton.setAttribute('aria-expanded', !expanded);
+        toggleButton.setAttribute('title', (!expanded) ? 'hide menu' : 'show menu')
         panel.setAttribute('data-expanded', !expanded);
 
         this.elements.toggleButtonText.innerText = (!expanded) ?  'Hide Panel' : 'Show Panel';
