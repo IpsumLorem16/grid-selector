@@ -121,8 +121,13 @@ body {
     align-items: center;
     justify-content: center;
     color: white;
-    pointer-events: none;
-    
+    pointer-events: none;    
+}
+
+.overlay__highlight-icon {
+    display: inline-block;
+    width: 25px;
+    height:25px;
 }
 
 /* Side control panel */

@@ -182,10 +182,19 @@ function highlightBox(columns, rows) {
     deleteHighlightBox()
 
     const gridOverlayEl = document.getElementById('gridOverlay'); //Element Where Overlay box is inserted.
-    const highlightEl = document.createElement('div'); // main componenet
     
+    // Create Highlight element
+    const highlightEl = document.createElement('div'); // main componenet
     highlightEl.className = 'overlay__highlight';
-
+    
+    
+    //add icon element
+    const iconEl = document.createElement('span');
+    iconEl.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>';
+    iconEl.className = 'overlay__highlight-icon';
+    highlightEl.append(iconEl);
+    
+    
     //set grid position of main component
     highlightEl.style.gridColumn = `${columnStart} / ${columnEnd+1}`;
     highlightEl.style.gridRow = `${rowStart} / ${rowEnd+1}`;
