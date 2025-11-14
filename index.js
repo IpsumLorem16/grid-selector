@@ -224,14 +224,21 @@ GridControls = {
     togglePanel() {
         const panel = this.elements.panel;
         const toggleButton = this.elements.toggleButton;
-        const expanded = toggleButton.getAttribute('aria-expanded') === 'true';
+        const wasExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+        const isExpanded = !wasExpanded;
 
         
-        toggleButton.setAttribute('aria-expanded', !expanded);
-        toggleButton.setAttribute('title', (!expanded) ? 'hide menu' : 'show menu')
-        panel.setAttribute('data-expanded', !expanded);
+        toggleButton.setAttribute('aria-expanded', isExpanded);
+        toggleButton.setAttribute('title', (isExpanded) ? 'hide menu': 'show menu')
+        panel.setAttribute('data-expanded', isExpanded);
 
-        this.elements.toggleButtonText.innerText = (!expanded) ?  'Hide Panel' : 'Show Panel';
+        this.elements.toggleButtonText.innerText = (isExpanded) ? 'Hide Panel' : 'Show Panel';
+
+        if (!isExpanded) {
+            panel.classList.add('side-panel--hide-content');
+        } else { 
+            panel.classList.remove('side-panel--hide-content');
+        }
 
     },
     handleGridInput() {
@@ -242,9 +249,16 @@ GridControls = {
 
     },
     init() {
-        this.elements.toggleButton.addEventListener('click', ()=>this.togglePanel());
+        const panel = this.elements.panel;
+        const toggleButton = this.elements.toggleButton;
+        
+        toggleButton.addEventListener('click', ()=>this.togglePanel());
         this.elements.columnsInput.addEventListener('change', ()=>this.handleGridInput());
         this.elements.rowsInput.addEventListener('change', ()=>this.handleGridInput());
+        toggleButton.addEventListener('click', ()=>{
+            panel.classList.remove('no-animation')
+        }, {once:true})
+        
     },
 
 }
