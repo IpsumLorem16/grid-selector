@@ -217,7 +217,7 @@ GridControls = {
     elements: {
         panel: document.getElementById('sidePanel'),
         toggleButton: document.getElementById('togglePanel'),
-        toggleButtonText: document.querySelector('.toggle-panel .sr-only'),
+        toggleButtonText: document.querySelector('.side-panel__toggle-btn .sr-only'),
         columnsInput: document.getElementById('columnsInput'),
         rowsInput: document.getElementById('rowsInput'),
     },
